@@ -55,33 +55,39 @@ set words[48]=shard
 set words[49]=aurorae
 
 :: Year
-set year=2019
+set year=2020
 
-for /L %%i in (1,1,20) do (
+for /L %%i in (1,1,23) do (
 
     set /a r=!random! %% 50
     set /a v=!random! %% 10
     call set word=%%words[!r!]%%
     call set verb=%%verbs[!v!]%%
 
-    if %%i==20 (
+    if %%i==23 (
         set msg=final commit
     ) else (
         set msg=!verb! !word!
     )
 
     :: Random date between Oct 5 and Dec 10
-    set /a offset=!random! %% 67
+    set /a offset=!random! %% 120
 
-    if !offset! LSS 27 (
-        set month=10
-        set /a day=5 + offset
-    ) else if !offset! LSS 57 (
-        set month=11
-        set /a day=offset - 26
+    if !offset! LSS 8 (
+        set month=4
+        set /a day=23 + offset
+    ) else if !offset! LSS 39 (
+        set month=5
+        set /a day=offset - 7
+    ) else if !offset! LSS 69 (
+        set month=6
+        set /a day=offset - 38
+    ) else if !offset! LSS 100 (
+        set month=7
+        set /a day=offset - 68
     ) else (
-        set month=12
-        set /a day=offset - 56
+        set month=8
+        set /a day=offset - 99
     )
 
     :: Random time
@@ -104,5 +110,5 @@ for /L %%i in (1,1,20) do (
 
     git commit -m "!msg!" --date "!commitdate!"
 
-    echo %%i / 20 - !msg! - !commitdate!
+    echo %%i / 23 - !msg! - !commitdate!
 )
